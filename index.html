@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Simu 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+ margin:0;
+ height:100vh;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ background:linear-gradient(135deg,#ff758c,#ff7eb3);
+ font-family:'Baloo 2', cursive;
+ overflow:hidden;
+}
+
+.box{
+ position:absolute;
+ width:90%;
+ max-width:380px;
+ min-height:55vh;
+ background:rgba(0,0,0,.25);
+ backdrop-filter:blur(12px);
+ border-radius:26px;
+ border:1.5px solid rgba(255,255,255,.35);
+ padding:30px;
+ display:none;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+}
+
+.page1{display:flex}
+
+button{
+ padding:14px 26px;
+ border:none;
+ border-radius:30px;
+ background:white;
+ color:#ff4f7a;
+ font-weight:bold;
+ margin-top:14px;
+}
+
+input{
+ padding:12px;
+ width:85%;
+ border:none;
+ border-radius:24px;
+ text-align:center;
+ font-family:'Baloo 2', cursive;
+}
+
+.next-btn,.prev-btn{
+ position:absolute;
+ bottom:10px;
+ font-size:.7rem;
+}
+.next-btn{right:12px}
+.prev-btn{left:12px}
+
+.overlay{
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,.85);
+ backdrop-filter:blur(10px);
+ display:none;
+ justify-content:center;
+ align-items:center;
+ flex-direction:column;
+ z-index:10;
+}
+.overlay img,.overlay video{
+ max-width:90%;
+ max-height:80%;
+ border-radius:20px;
+}
+
+#gallery{
+ display:flex;
+ flex-wrap:wrap;
+ justify-content:center;
+ max-height:60vh;
+ overflow-y:auto;
+}
+
+.photoBox{
+ position:relative;
+ margin:6px;
+}
+
+.photo{
+ width:90px;
+ height:90px;
+ border-radius:14px;
+ opacity:0;
+ transition:opacity 1s;
+ box-shadow:0 0 16px rgba(255,255,255,.6);
+}
+.photo.show{opacity:1}
+
+.tapHint{
+ position:absolute;
+ inset:0;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ background:rgba(0,0,0,.6);
+ border-radius:14px;
+ color:white;
+ font-size:12px;
+ animation:pulse 1.2s infinite;
+}
+@keyframes pulse{
+ 0%{opacity:.4}
+ 50%{opacity:1}
+ 100%{opacity:.4}
+}
+
+.longTap{font-size:42px;margin-top:20px}
+
+.bubble{
+ position:fixed;
+ width:14px;
+ height:14px;
+ background:rgba(255,255,255,.5);
+ border-radius:50%;
+ animation:bubble 3s linear forwards;
+}
+@keyframes bubble{
+ from{transform:scale(.4);opacity:1}
+ to{transform:scale(1.5);opacity:0}
+}
+
+/* ===== PAGE 7 ===== */
+#finalPhoto{
+ width:170px;
+ height:170px;
+ object-fit:cover;
+ border-radius:24px;
+ margin:12px 0;
+ opacity:0;
+ transform:scale(.85);
+ animation:photoIn 1.5s forwards, beat 1.8s infinite;
+ box-shadow:0 0 28px rgba(255,255,255,.7);
+}
+@keyframes photoIn{to{opacity:1;transform:scale(1)}}
+@keyframes beat{
+ 0%{transform:scale(1)}
+ 50%{transform:scale(1.05)}
+ 100%{transform:scale(1)}
+}
+
+#typeText{
+ color:white;
+ text-shadow:0 0 12px #ff9ebc;
+ font-size:15px;
+ line-height:1.6;
+}
+
+.confetti{
+ position:fixed;
+ width:8px;
+ height:14px;
+ top:-10px;
+ animation:fall linear forwards;
+ z-index:0;
+}
+@keyframes fall{
+ to{transform:translateY(110vh) rotate(360deg);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<div class="box page1" id="p1">
+ <h2>DATE OF BIRTH 💕</h2>
+ <input type="text" id="dob" placeholder="DD-MM-YYYY" maxlength="10">
+ <button onclick="checkDOB()">Verify</button>
+</div>
+
+<div class="box" id="p2">
+ <h2>What does he call's you? 💌</h2>
+ <input type="password" id="namePass">
+ <div onclick="heart.style.display='block'">Hint (tap)</div>
+ <div id="heart" style="display:none;font-size:28px">🫀</div>
+ <button onclick="checkName()">Verify</button>
+</div>
+
+<div class="box" id="p3">
+ <h2>Special Memories 💖</h2>
+ <button onclick="openImage()">View 👀</button>
+ <button onclick="openVideo()">Watch 🎥</button>
+ <button onclick="openAudio()">Hear 📞</button>
+ <button class="next-btn" onclick="show(p4)">aage badhe ➡</button>
+</div>
+
+<div class="box" id="p4">
+ <h2>Choose Mode 💖</h2>
+ <button onclick="openGallery('manual')">Manual</button>
+ <div style="margin-top:10px;font-size:14px;color:white">
+ Auto speed:
+ <select id="autoTime" style="color:white;background:transparent;border:none">
+  <option value="500">0.5 sec</option>
+  <option value="1000">1 sec</option>
+  <option value="2000">2 sec</option>
+  <option value="3000">3 sec</option>
+  <option value="4000">4 sec</option>
+  <option value="5000">5 sec</option>
+ </select>
+ </div>
+ <button onclick="openGallery('auto')">Automatic</button>
+ <button class="prev-btn" onclick="show(p3)">Previous</button>
+</div>
+
+<div class="box" id="p5">
+ <h2>your album 💕</h2>
+ <div id="gallery"></div>
+ <button class="prev-btn" onclick="show(p4)">Previous</button>
+ <button class="next-btn" onclick="show(p6)">Next</button>
+</div>
+
+<div class="box" id="p6">
+ <h2>Tap for 2 seconds 💖</h2>
+ <div class="longTap" id="longTap">❤️</div>
+</div>
+
+<div class="box" id="p7">
+ <h2>Happy Birthday Simu 🎂💖</h2>
+ <p style="color:white">You are my jaan 💕</p>
+ <img src="final.jpg" id="finalPhoto">
+ <p id="typeText"></p>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<audio id="yes" src="yes.mp3"></audio>
+<audio id="no" src="no.mp3"></audio>
+
+<script>
+const boxes=document.querySelectorAll('.box')
+function show(p){boxes.forEach(b=>b.style.display='none');p.style.display='flex'}
+
+dob.addEventListener("input",()=>{
+ let v=dob.value.replace(/[^0-9]/g,"")
+ if(v.length>2)v=v.slice(0,2)+"-"+v.slice(2)
+ if(v.length>5)v=v.slice(0,5)+"-"+v.slice(5,9)
+ dob.value=v
+})
+
+function checkDOB(){dob.value==="17-01-2007"?(yes.play(),show(p2)):no.play()}
+function checkName(){namePass.value.toLowerCase()=="jaan"?(yes.play(),show(p3)):no.play()}
+
+function openImage(){
+ overlay.innerHTML='<img src="happy.jpg"><button onclick="closeOverlay()">Back</button>';
+ overlay.style.display='flex'
+}
+function openVideo(){
+ overlay.innerHTML='<video id="vid" src="vip.mp4" controls autoplay></video><button onclick="closeOverlay()">Back</button>';
+ overlay.style.display='flex'
+}
+
+function closeOverlay(){
+ let v=document.getElementById("vid");
+ if(v){v.pause();v.currentTime=0}
+ overlay.style.display='none'
+}
+
+/* ===== HEAR BUTTON FIX ONLY ===== */
+function openAudio(){
+ overlay.innerHTML = `
+  <div style="display:flex;flex-direction:column;align-items:center">
+   <div style="font-size:60px;margin-bottom:10px">📻</div>
+   <audio id="audioPlayer" src="rec.mp3" controls autoplay></audio>
+   <button onclick="closeAudio()">Back</button>
+  </div>
+ `;
+ overlay.style.display = "flex";
+}
+
+function closeAudio(){
+ let a=document.getElementById("audioPlayer");
+ if(a){a.pause();a.currentTime=0}
+ overlay.style.display="none";
+}
+
+/* ===== GALLERY ===== */
+let gallery=document.getElementById("gallery"),photos=[],current=0
+for(let i=0;i<50;i++){
+ let box=document.createElement("div")
+ box.className="photoBox"
+ let img=document.createElement("img")
+ img.src="photo"+(i+1)+".jpg"
+ img.className="photo"
+ let hint=document.createElement("div")
+ hint.className="tapHint"
+ hint.innerText="Tap to view 👆"
+ box.append(img,hint)
+ gallery.appendChild(box)
+ photos.push({box,img,hint})
+}
+
+function openGallery(mode){
+ show(p5)
+ photos.forEach(p=>{p.img.classList.remove("show");p.hint.style.display="none"})
+ current=0
+ if(mode==="manual"){
+  photos[0].hint.style.display="flex"
+  photos.forEach((p,i)=>p.box.onclick=()=>{
+   if(i===current){
+    p.img.classList.add("show")
+    p.hint.style.display="none"
+    current++
+    if(photos[current])photos[current].hint.style.display="flex"
+   }
+  })
+ }else{
+  let i=0,d=+autoTime.value
+  let t=setInterval(()=>{
+   if(i>=photos.length){clearInterval(t);return}
+   photos[i].img.classList.add("show");i++
+  },d)
+ }
+}
+
+let pressTimer
+longTap.addEventListener("touchstart",()=>pressTimer=setTimeout(()=>show(p7),2000))
+longTap.addEventListener("touchend",()=>clearTimeout(pressTimer))
+
+/* ===== PAGE 7 EFFECT ===== */
+let done=false,ti=0
+let msg="5 years ho gaye hamare bond ko mere traf se 💕\nAisa ek v din nhi hota jis din mai tumko yaad nhi karta 🫀\nIdk kon najar laga diya hamre relation pe ❤️"
+
+setInterval(()=>{
+ if(p7.style.display==="flex" && !done){
+  done=true
+  for(let i=0;i<120;i++){
+   let c=document.createElement("div")
+   c.className="confetti"
+   c.style.left=Math.random()*100+"vw"
+   c.style.background=`hsl(${Math.random()*360},100%,60%)`
+   c.style.animationDuration=(Math.random()*3+2)+"s"
+   document.body.appendChild(c)
+   setTimeout(()=>c.remove(),5000)
+  }
+  let t=setInterval(()=>{
+   if(ti<msg.length){
+    typeText.innerHTML+=msg[ti]==="\n"?"<br>":msg[ti]
+    ti++
+   }else clearInterval(t)
+  },85)
+ }
+},400)
+
+/* ===== BUBBLES ===== */
+setInterval(()=>{
+ let b=document.createElement("div")
+ b.className="bubble"
+ b.style.left=Math.random()*100+"vw"
+ b.style.top=Math.random()*100+"vh"
+ document.body.appendChild(b)
+ setTimeout(()=>b.remove(),3000)
+},400)
+</script>
+
+</body>
+</html>
