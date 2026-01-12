@@ -294,6 +294,11 @@ const boxes=document.querySelectorAll('.box')
 const bgm = document.getElementById("bgm");
 let bgmOn = true;
 bgm.volume = 0.6;
+ document.addEventListener("visibilitychange", () => {
+ if (!document.hidden && bgmOn) {
+  bgm.play().catch(()=>{});
+ }
+});
 
 document.addEventListener("click", () => {
  if (bgm.paused) bgm.play().catch(()=>{});
@@ -455,3 +460,4 @@ setInterval(()=>{
 
 </body>
 </html>
+
