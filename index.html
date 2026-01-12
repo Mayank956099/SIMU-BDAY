@@ -295,6 +295,8 @@ input{
 const boxes=document.querySelectorAll('.box')
 const bgm = document.getElementById("bgm");
 let bgmOn = true;
+ let autoGalleryTimer = null;
+const pop = document.getElementById("popSound");
 
 /* start BGM at 40% volume and fade to 60% after 3 sec */
 bgm.volume = 0.4; // starting volume
@@ -336,7 +338,19 @@ function volUp(){
 function volDown(){
  bgm.volume = Math.max(0, bgm.volume - 0.1);
 }
-function show(p){boxes.forEach(b=>b.style.display='none');p.style.display='flex'}
+function show(p){
+ boxes.forEach(b=>b.style.display='none');
+ p.style.display='flex';
+
+ // 🔇 Stop pop sound
+ pop.pause();
+ pop.currentTime = 0;
+
+ // ⏹ Stop auto gallery
+ if(autoGalleryTimer){
+  clearInterval(autoGalleryTimer);
+  autoGalleryTimer = null;
+ }
 
 dob.addEventListener("input",()=>{
  let v=dob.value.replace(/[^0-9]/g,"")
@@ -420,17 +434,24 @@ pop.play().catch(()=>{});
     if(photos[current])photos[current].hint.style.display="flex"
    }
   })
- }else{
-  let i=0,d=+autoTime.value
-  let t=setInterval(()=>{
-   if(i>=photos.length){clearInterval(t);return}
-   photos[i].img.classList.add("show");let pop = document.getElementById("popSound");
-pop.currentTime = 0;
-pop.volume = 1;
-pop.play();i++
-  },d)
+}else{
+ let i = 0;
+ let d = +autoTime.value;
+
+ autoGalleryTimer = setInterval(()=>{
+  if(i >= photos.length){
+   clearInterval(autoGalleryTimer);
+   autoGalleryTimer = null;
+   return;
+  }
+
+  photos[i].img.classList.add("show");
+  pop.currentTime = 0;
+  pop.volume = 1;
+  pop.play().catch(()=>{});
+  i++;
+ }, d);
  }
-}
 
 let pressTimer
 longTap.addEventListener("touchstart",()=>pressTimer=setTimeout(()=>show(p7),2000))
@@ -480,3 +501,4 @@ setInterval(()=>{
 
 </body>
 </html>
+
