@@ -339,8 +339,8 @@ function volDown(){
  bgm.volume = Math.max(0, bgm.volume - 0.1);
 }
 function show(p){
- boxes.forEach(b=>b.style.display='none');
- p.style.display='flex';
+ boxes.forEach(b => b.style.display = 'none');
+ p.style.display = 'flex';
 
  // 🔇 Stop pop sound
  pop.pause();
@@ -351,6 +351,7 @@ function show(p){
   clearInterval(autoGalleryTimer);
   autoGalleryTimer = null;
  }
+}
 
 dob.addEventListener("input",()=>{
  let v=dob.value.replace(/[^0-9]/g,"")
@@ -501,4 +502,5 @@ setInterval(()=>{
 
 </body>
 </html>
+
 
