@@ -171,8 +171,48 @@ input{
  animation:fall linear forwards;
  z-index:0;
 }
+
+
 @keyframes fall{
  to{transform:translateY(110vh) rotate(360deg);opacity:0}
+}
+#bgmControl{
+ position:fixed;
+ top:14px;
+ right:14px;
+ width:44px;
+ height:44px;
+ border-radius:50%;
+ background:rgba(0,0,0,.45);
+ backdrop-filter:blur(6px);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:22px;
+ color:white;
+ z-index:20;
+}
+#volControl{
+ position:fixed;
+ right:14px;
+ top:64px;
+ display:flex;
+ flex-direction:column;
+ gap:10px;
+ z-index:20;
+}
+
+#volControl div{
+ width:42px;
+ height:42px;
+ border-radius:50%;
+ background:rgba(0,0,0,.45);
+ backdrop-filter:blur(6px);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:20px;
+ color:white;
 }
 </style>
 </head>
@@ -242,9 +282,48 @@ input{
 
 <audio id="yes" src="yes.mp3"></audio>
 <audio id="no" src="no.mp3"></audio>
+<audio id="bgm" src="nadaniya.mp3" loop></audio>
+<div id="bgmControl" onclick="toggleBGM()">🔊</div>
+<div id="volControl">
+ <div onclick="volDown()">➖</div>
+ <div onclick="volUp()">➕</div>
+</div>
 
 <script>
 const boxes=document.querySelectorAll('.box')
+const bgm = document.getElementById("bgm");
+let bgmOn = true;
+bgm.volume = 0.6;
+
+document.addEventListener("click", () => {
+ if (bgm.paused) bgm.play().catch(()=>{});
+},{ once:true });
+
+function toggleBGM(){
+ bgmOn = !bgmOn;
+ if(bgmOn){
+  bgm.play();
+  bgmControl.innerText="🔊";
+ }else{
+  bgm.pause();
+  bgmControl.innerText="🔇";
+ }
+}
+
+function fadeTo(target, time=400){
+ let step = (target - bgm.volume) / (time/20);
+ let t = setInterval(()=>{
+  bgm.volume = Math.max(0, Math.min(1, bgm.volume + step));
+  if(Math.abs(bgm.volume - target) < 0.02) clearInterval(t);
+ },20);
+}
+function volUp(){
+ bgm.volume = Math.min(1, bgm.volume + 0.1);
+}
+
+function volDown(){
+ bgm.volume = Math.max(0, bgm.volume - 0.1);
+}
 function show(p){boxes.forEach(b=>b.style.display='none');p.style.display='flex'}
 
 dob.addEventListener("input",()=>{
@@ -254,10 +333,15 @@ dob.addEventListener("input",()=>{
  dob.value=v
 })
 
-function checkDOB(){dob.value==="17-01-2007"?(yes.play(),show(p2)):no.play()}
+function checkDOB(){
+ fadeTo(0.4,200);
+ dob.value==="17-01-2007"?(yes.play(),show(p2)):no.play()
+ setTimeout(()=>fadeTo(0.6),500)
+}
 function checkName(){namePass.value.toLowerCase()=="jaan"?(yes.play(),show(p3)):no.play()}
 
 function openImage(){
+ fadeTo(0.15);
  overlay.innerHTML='<img src="happy.jpg"><button onclick="closeOverlay()">Back</button>';
  overlay.style.display='flex'
 }
