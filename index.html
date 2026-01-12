@@ -308,7 +308,8 @@ function fadeTo(target, time=400){
 bgm.play().catch(()=>{}); // start playing (after first tap if mobile)
 fadeTo(0.6, 3000); // fade to 60% in 3 seconds
  document.addEventListener("visibilitychange", () => {
- if (!document.hidden && bgmOn) {
+ if (!document.hidden && bgmOn &&
+p7.style.display !== "flex") {
   bgm.play().catch(()=>{});
  }
 });
@@ -328,13 +329,6 @@ function toggleBGM(){
  }
 }
 
-function fadeTo(target, time=400){
- let step = (target - bgm.volume) / (time/20);
- let t = setInterval(()=>{
-  bgm.volume = Math.max(0, Math.min(1, bgm.volume + step));
-  if(Math.abs(bgm.volume - target) < 0.02) clearInterval(t);
- },20);
-}
 function volUp(){
  bgm.volume = Math.min(1, bgm.volume + 0.1);
 }
@@ -421,7 +415,7 @@ function openGallery(mode){
     let pop = document.getElementById("popSound");
 pop.currentTime = 0;
 pop.volume = 1;
-pop.play();
+pop.play().catch(()=>{});
     current++
     if(photos[current])photos[current].hint.style.display="flex"
    }
@@ -448,6 +442,8 @@ let msg="5 years ho gaye hamare bond ko mere traf se 💕\nAisa ek v din nhi hot
 
 setInterval(()=>{
  if(p7.style.display==="flex" && !done){
+bgm.pause();          // stop BGM fully
+bgm.currentTime = 0;
   let hbd = document.getElementById("hbdSong");
 hbd.volume = 1;
 hbd.currentTime = 0;
@@ -484,4 +480,3 @@ setInterval(()=>{
 
 </body>
 </html>
-
