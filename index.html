@@ -293,7 +293,18 @@ input{
 const boxes=document.querySelectorAll('.box')
 const bgm = document.getElementById("bgm");
 let bgmOn = true;
-bgm.volume = 0.6;
+
+/* start BGM at 40% volume and fade to 60% after 3 sec */
+bgm.volume = 0.4; // starting volume
+function fadeTo(target, time=400){
+ let step = (target - bgm.volume) / (time/20);
+ let t = setInterval(()=>{
+  bgm.volume = Math.max(0, Math.min(1, bgm.volume + step));
+  if(Math.abs(bgm.volume - target) < 0.02) clearInterval(t);
+ },20);
+}
+bgm.play().catch(()=>{}); // start playing (after first tap if mobile)
+fadeTo(0.6, 3000); // fade to 60% in 3 seconds
  document.addEventListener("visibilitychange", () => {
  if (!document.hidden && bgmOn) {
   bgm.play().catch(()=>{});
@@ -351,18 +362,19 @@ function openImage(){
  overlay.style.display='flex'
 }
 function openVideo(){
+ fadeTo(0.2, 300); // fade BGM down to 20% in 0.3 sec
  overlay.innerHTML='<video id="vid" src="vip.mp4" controls autoplay></video><button onclick="closeOverlay()">Back</button>';
- overlay.style.display='flex'
+ overlay.style.display='flex';
 }
-
 function closeOverlay(){
  let v=document.getElementById("vid");
  if(v){v.pause();v.currentTime=0}
- overlay.style.display='none'
+ overlay.style.display='none';
+ fadeTo(0.6, 800); // restore BGM volume to 60%
 }
-
 /* ===== HEAR BUTTON FIX ONLY ===== */
 function openAudio(){
+ fadeTo(0.1, 300); // fade BGM down to 10% quickly
  overlay.innerHTML = `
   <div style="display:flex;flex-direction:column;align-items:center">
    <div style="font-size:60px;margin-bottom:10px">📻</div>
@@ -372,13 +384,12 @@ function openAudio(){
  `;
  overlay.style.display = "flex";
 }
-
 function closeAudio(){
  let a=document.getElementById("audioPlayer");
  if(a){a.pause();a.currentTime=0}
  overlay.style.display="none";
+ fadeTo(0.6, 800); // restore BGM volume to 60%
 }
-
 /* ===== GALLERY ===== */
 let gallery=document.getElementById("gallery"),photos=[],current=0
 for(let i=0;i<50;i++){
@@ -460,4 +471,3 @@ setInterval(()=>{
 
 </body>
 </html>
-
