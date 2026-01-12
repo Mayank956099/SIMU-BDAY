@@ -342,16 +342,12 @@ function show(p){
  boxes.forEach(b => b.style.display = 'none');
  p.style.display = 'flex';
 
- // 🔇 Stop pop sound
- pop.pause();
- pop.currentTime = 0;
-
- // ⏹ Stop auto gallery
+ // ⏹ Stop auto gallery only
  if(autoGalleryTimer){
   clearInterval(autoGalleryTimer);
   autoGalleryTimer = null;
  }
-}
+ } 
 
 dob.addEventListener("input",()=>{
  let v=dob.value.replace(/[^0-9]/g,"")
@@ -422,19 +418,23 @@ function openGallery(mode){
  photos.forEach(p=>{p.img.classList.remove("show");p.hint.style.display="none"})
  current=0
  if(mode==="manual"){
-  photos[0].hint.style.display="flex"
-  photos.forEach((p,i)=>p.box.onclick=()=>{
-   if(i===current){
-    p.img.classList.add("show")
-    p.hint.style.display="none"
-    let pop = document.getElementById("popSound");
-pop.currentTime = 0;
-pop.volume = 1;
-pop.play().catch(()=>{});
-    current++
-    if(photos[current])photos[current].hint.style.display="flex"
-   }
-  })
+ photos[0].hint.style.display="flex";
+
+ photos.forEach((p,i)=>p.box.onclick=()=>{
+  if(i===current){
+   p.img.classList.add("show");
+   p.hint.style.display="none";
+
+   // 🔊 POP ONLY ON PAGE 5 MANUAL
+   pop.currentTime = 0;
+   pop.volume = 1;
+   pop.play().catch(()=>{});
+
+   current++;
+   if(photos[current]) photos[current].hint.style.display="flex";
+  }
+ });
+} 
 }else{
  let i = 0;
  let d = +autoTime.value;
@@ -447,13 +447,15 @@ pop.play().catch(()=>{});
   }
 
   photos[i].img.classList.add("show");
+
+  // 🔊 POP ONLY ON PAGE 5 AUTO
   pop.currentTime = 0;
   pop.volume = 1;
   pop.play().catch(()=>{});
+
   i++;
  }, d);
  }
-
 let pressTimer
 longTap.addEventListener("touchstart",()=>pressTimer=setTimeout(()=>show(p7),2000))
 longTap.addEventListener("touchend",()=>clearTimeout(pressTimer))
@@ -502,5 +504,6 @@ setInterval(()=>{
 
 </body>
 </html>
+
 
 
