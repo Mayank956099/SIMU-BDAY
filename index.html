@@ -283,6 +283,8 @@ input{
 <audio id="yes" src="yes.mp3"></audio>
 <audio id="no" src="no.mp3"></audio>
 <audio id="bgm" src="nadaniya.mp3" loop></audio>
+ <audio id="popSound" src="pop.mp3"></audio>
+<audio id="hbdSong" src="hbd.mp3" loop></audio>
 <div id="bgmControl" onclick="toggleBGM()">🔊</div>
 <div id="volControl">
  <div onclick="volDown()">➖</div>
@@ -416,6 +418,10 @@ function openGallery(mode){
    if(i===current){
     p.img.classList.add("show")
     p.hint.style.display="none"
+    let pop = document.getElementById("popSound");
+pop.currentTime = 0;
+pop.volume = 1;
+pop.play();
     current++
     if(photos[current])photos[current].hint.style.display="flex"
    }
@@ -424,7 +430,10 @@ function openGallery(mode){
   let i=0,d=+autoTime.value
   let t=setInterval(()=>{
    if(i>=photos.length){clearInterval(t);return}
-   photos[i].img.classList.add("show");i++
+   photos[i].img.classList.add("show");let pop = document.getElementById("popSound");
+pop.currentTime = 0;
+pop.volume = 1;
+pop.play();i++
   },d)
  }
 }
@@ -439,6 +448,10 @@ let msg="5 years ho gaye hamare bond ko mere traf se 💕\nAisa ek v din nhi hot
 
 setInterval(()=>{
  if(p7.style.display==="flex" && !done){
+  let hbd = document.getElementById("hbdSong");
+hbd.volume = 1;
+hbd.currentTime = 0;
+hbd.play();
   done=true
   for(let i=0;i<120;i++){
    let c=document.createElement("div")
@@ -471,3 +484,4 @@ setInterval(()=>{
 
 </body>
 </html>
+
