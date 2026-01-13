@@ -1,4 +1,20 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>For Simu 💖</title><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600&display=swap" rel="stylesheet"><style>
+<!DOCTYPE html>
+  
+<html lang="en">
+  
+<head>
+  
+<meta charset="UTF-8">
+  
+<title>For Simu 💖</title>
+  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600&display=swap" rel="stylesheet">
+  
+
+  
+<style>
   
 body{
   
@@ -414,51 +430,167 @@ input{
   
 }
   
-</style></head><body><div class="box page1" id="p1"> <h2>DATE OF BIRTH 💕</h2> <input type="text" id="dob" placeholder="DD-MM-YYYY" maxlength="10"><button onclick="checkDOB()">Verify</button>
+</style>
+  
+</head>
+  
 
-</div><div class="box" id="p2"> <h2>What does he call's you? 💌</h2> <input type="password" id="namePass"> <div onclick="heart.style.display='block'">Hint (tap)</div> <div id="heart" style="display:none;font-size:28px">🫀</div><button onclick="checkName()">Verify</button>
+  
+<body>
+  
 
-</div><div class="box" id="p3"> <h2>Special Memories 💖</h2><button onclick="openImage()">View 👀</button>
+  
+<div class="box page1" id="p1">
+  
+ <h2>DATE OF BIRTH 💕</h2>
+  
+ <input type="text" id="dob" placeholder="DD-MM-YYYY" maxlength="10">
+  
+ <button onclick="checkDOB()">Verify</button>
+  
+</div>
+  
 
-<button onclick="openVideo()">Watch 🎥</button>
+  
+<div class="box" id="p2">
+  
+ <h2>What does he call's you? 💌</h2>
+  
+ <input type="password" id="namePass">
+  
+ <div onclick="heart.style.display='block'">Hint (tap)</div>
+  
+ <div id="heart" style="display:none;font-size:28px">🫀</div>
+  
+ <button onclick="checkName()">Verify</button>
+  
+</div>
+  
 
-<button onclick="openAudio()">Hear 📞</button>
+  
+<div class="box" id="p3">
+  
+ <h2>Special Memories 💖</h2>
+  
+ <button onclick="openImage()">View 👀</button>
+  
+ <button onclick="openVideo()">Watch 🎥</button>
+  
+ <button onclick="openAudio()">Hear 📞</button>
+  
+ <button class="next-btn" onclick="show(p4)">aage badhe ➡</button>
+  
+</div>
+  
 
-<button class="next-btn" onclick="show(p4)">aage badhe ➡</button>
+  
+<div class="box" id="p4">
+  
+ <h2>Choose Mode 💖</h2>
+  
+ <button onclick="openGallery('manual')">Manual</button>
+  
+ <div style="margin-top:10px;font-size:14px;color:white">
+  
+ Auto speed:
+  
+ <select id="autoTime" style="color:white;background:transparent;border:none">
+  
+  <option value="500">0.5 sec</option>
+  
+  <option value="1000">1 sec</option>
+  
+  <option value="2000">2 sec</option>
+  
+  <option value="3000">3 sec</option>
+  
+  <option value="4000">4 sec</option>
+  
+  <option value="5000">5 sec</option>
+  
+ </select>
+  
+ </div>
+  
+ <button onclick="openGallery('auto')">Automatic</button>
+  
+ <button class="prev-btn" onclick="show(p3)">Previous</button>
+  
+</div>
+  
 
-</div><div class="box" id="p4"> <h2>Choose Mode 💖</h2><button onclick="openGallery('manual')">Manual</button>
+  
+<div class="box" id="p5">
+  
+ <h2>your album 💕</h2>
+  
+ <div id="gallery"></div>
+  
+ <button class="prev-btn" onclick="show(p4)">Previous</button>
+  
+ <button class="next-btn" onclick="show(p6)">Next</button>
+  
+</div>
+  
 
- <div style="margin-top:10px;font-size:14px;color:white">Auto speed:
+  
+<div class="box" id="p6">
+  
+ <h2>Tap for 2 seconds 💖</h2>
+  
+ <div class="longTap" id="longTap">❤️</div>
+  
+</div>
+  
 
- <select id="autoTime" style="color:white;background:transparent;border:none">  <option value="500">0.5 sec</option>  <option value="1000">1 sec</option>  <option value="2000">2 sec</option>  <option value="3000">3 sec</option>  <option value="4000">4 sec</option>  <option value="5000">5 sec</option> </select> </div><button onclick="openGallery('auto')">Automatic</button>
+  
+<div class="box" id="p7">
+  
+ <h2>Happy Birthday Simu 🎂💖</h2>
+  
+ <p style="color:white">You are my jaan 💕</p>
+  
+ <img src="final.jpg" id="finalPhoto">
+  
+ <p id="typeText"></p>
+  
+</div>
+  
 
-<button class="prev-btn" onclick="show(p3)">Previous</button>
+  
+<div class="overlay" id="overlay"></div>
+  
 
-</div><div class="box" id="p5"> <h2>your album 💕</h2> <div id="gallery"></div><button class="prev-btn" onclick="show(p4)">Previous</button>
-
-<button class="next-btn" onclick="show(p6)">Next</button>
-
-</div><div class="box" id="p6"> <h2>Tap for 2 seconds 💖</h2> <div class="longTap" id="longTap">❤️</div></div><div class="box" id="p7"> <h2>Happy Birthday Simu 🎂💖</h2> <p style="color:white">You are my jaan 💕</p> <img src="final.jpg" id="finalPhoto"> <p id="typeText"></p></div><div class="overlay" id="overlay"></div><audio id="yes" src="yes.mp3"></audio>
-
+  
+<audio id="yes" src="yes.mp3"></audio>
+  
 <audio id="no" src="no.mp3"></audio>
-
+  
 <audio id="bgm" src="nadaniya.mp3" loop></audio>
-
-<audio id="popSound" src="pop.mp3"></audio>
-
+  
+ <audio id="popSound" src="pop.mp3"></audio>
+  
 <audio id="hbdSong" src="hbd.mp3" loop></audio>
+  
+<div id="bgmControl" onclick="toggleBGM()">🔊</div>
+  
+<div id="volControl">
+  
+ <div onclick="volDown()">➖</div>
+  
+ <div onclick="volUp()">➕</div>
+  
+</div>
+  
 
-<div id="bgmControl" onclick="toggleBGM()">🔊</div><div id="volControl"> <div onclick="volDown()">➖</div> <div onclick="volUp()">➕</div></div><script>
+  
+<script>
   
 const boxes=document.querySelectorAll('.box')
   
 const bgm = document.getElementById("bgm");
   
 let bgmOn = true;
-  
- let autoGalleryTimer = null;
-  
-const pop = document.getElementById("popSound");
   
 
   
@@ -542,31 +674,7 @@ function volDown(){
   
 }
   
-function show(p){
-  
- boxes.forEach(b=>b.style.display='none');
-  
- p.style.display='flex';
-  
-
-  
- // 🔇 Stop pop sound
-  
- pop.pause();
-  
- pop.currentTime = 0;
-  
-
-  
- // ⏹ Stop auto gallery
-  
- if(autoGalleryTimer){
-  
-  clearInterval(autoGalleryTimer);
-  
-  autoGalleryTimer = null;
-  
- }
+function show(p){boxes.forEach(b=>b.style.display='none');p.style.display='flex'}
   
 
   
@@ -734,41 +842,27 @@ pop.play().catch(()=>{});
   
   })
   
-}else{
+ }else{
   
- let i = 0;
+  let i=0,d=+autoTime.value
   
- let d = +autoTime.value;
+  let t=setInterval(()=>{
   
-
+   if(i>=photos.length){clearInterval(t);return}
   
- autoGalleryTimer = setInterval(()=>{
+   photos[i].img.classList.add("show");let pop = document.getElementById("popSound");
   
-  if(i >= photos.length){
+pop.currentTime = 0;
   
-   clearInterval(autoGalleryTimer);
+pop.volume = 1;
   
-   autoGalleryTimer = null;
+pop.play();i++
   
-   return;
-  
-  }
-  
-
-  
-  photos[i].img.classList.add("show");
-  
-  pop.currentTime = 0;
-  
-  pop.volume = 1;
-  
-  pop.play().catch(()=>{});
-  
-  i++;
-  
- }, d);
+  },d)
   
  }
+  
+}
   
 
   
@@ -860,6 +954,15 @@ setInterval(()=>{
   
 },400)
   
-</script></body></html>
+</script>
+  
+
+  
+</body>
+  
+</html>  
+
+
+
 
 
